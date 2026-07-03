@@ -267,6 +267,13 @@
                 break;
             }
 
+            case "setScale": {
+                if (data.scale) {
+                    document.documentElement.style.setProperty('--nui-scale', data.scale);
+                }
+                break;
+            }
+
             case "controlPressed": {
                 switch (data.ak_menubase_control) {
                     case "ENTER": {
