@@ -6,7 +6,8 @@ description 'rsg-menubase'
 version '1.1.5'
 
 client_scripts {
-    'client/main.lua'
+    'client/main.lua',
+    'client/scale.lua'
 }
 
 server_scripts { 
