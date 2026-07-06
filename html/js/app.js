@@ -47,20 +47,33 @@
         <br>
         '</div>'`;
 
-    function scrollToElement(element, block = "nearest") {
-        if (element) {
-            const menuContainer = element.closest('.menu').querySelector('.menu-items');
-            if (menuContainer) {
-                const elementRect = element.getBoundingClientRect();
-                const containerRect = menuContainer.getBoundingClientRect();
-
-                if (elementRect.bottom > containerRect.bottom) {
-                    menuContainer.scrollTop += elementRect.bottom - containerRect.bottom;
-                } else if (elementRect.top < containerRect.top) {
-                    menuContainer.scrollTop -= containerRect.top - elementRect.top;
-                }
-            }
+    function scrollToElement(element) {
+        if (!element) {
+            return;
         }
+
+        const menu = element.closest(".menu");
+        const menuContainer = menu ? menu.querySelector(".menu-items") : null;
+
+        if (!menuContainer) {
+            return;
+        }
+
+        const elementRect = element.getBoundingClientRect();
+        const containerRect = menuContainer.getBoundingClientRect();
+        const offsetTop = elementRect.top - containerRect.top;
+        const offsetBottom = elementRect.bottom - containerRect.bottom;
+
+        if (offsetBottom > 0) {
+            menuContainer.scrollTop += offsetBottom + 8;
+        } else if (offsetTop < 0) {
+            menuContainer.scrollTop += offsetTop - 8;
+        }
+
+        menuContainer.scrollTop = Math.max(
+            0,
+            Math.min(menuContainer.scrollHeight - menuContainer.clientHeight, menuContainer.scrollTop)
+        );
     }
 
     window.MenuData = {};
@@ -264,13 +277,6 @@
 
             case "closeMenu": {
                 MenuData.close(data.ak_menubase_namespace, data.ak_menubase_name);
-                break;
-            }
-
-            case "setScale": {
-                if (data.scale) {
-                    document.documentElement.style.setProperty('--nui-scale', data.scale);
-                }
                 break;
             }
 

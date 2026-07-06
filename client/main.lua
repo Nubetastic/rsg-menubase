@@ -332,7 +332,6 @@ AddEventHandler("rsg-menubase:getData", function(cb)
 end)
 
 AddEventHandler("onClientResourceStart", function(resourceName)
-	if GetCurrentResourceName() ~= resourceName then return end
 	MenuData.LastSelectedIndex = {}
 end)
 
